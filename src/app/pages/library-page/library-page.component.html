@@ -1,0 +1,17 @@
+<div class="flex flex-wrap gap-10 justify-center mt-10 mb-10">
+    <div *ngFor="let anime of animeLibrary" class="relative cursor-pointer">
+        <img class="relative rounded-xl drop-shadow-md" [src]="anime.attributes.posterImage.small"
+            alt="anime.attributes.slug">
+        <div class="bg-black absolute w-full bottom-0 px-4 py-6 rounded-b-xl bg-opacity-80">
+            <div class="font-bold">
+                {{(!!anime.attributes.titles.en ? anime.attributes.titles.en : anime.attributes.titles.en_jp) | uppercase}}
+            </div>
+            <div>
+                {{anime.attributes.startDate | date: 'mediumDate'}} - {{!!anime.attributes.endDate ? (anime.attributes.endDate | date: 'mediumDate') : 'Present'}}
+            </div>
+            <div>
+                {{anime.attributes.showType == 'TV' ? 'TV' : (anime.attributes.showType | titlecase) }}
+            </div>            
+        </div>
+    </div>
+</div>
