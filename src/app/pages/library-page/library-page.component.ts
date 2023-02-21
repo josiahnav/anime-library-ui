@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AnimeLibraryEntry } from 'src/app/shared/models/anime-library-entry';
 import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
@@ -8,7 +9,9 @@ import { ApiService } from 'src/app/shared/services/api.service';
 })
 export class LibraryPageComponent implements OnInit {
 
-  animeLibrary: any[] = [];
+  animeLibrary: AnimeLibraryEntry[] = [];
+  limit: number = 20;
+  offset: number = 0;
 
   constructor(private _apiService: ApiService) {}
 
@@ -17,8 +20,20 @@ export class LibraryPageComponent implements OnInit {
   }
 
   initializeData() {
-    this._apiService.getAllAnime().subscribe(res => {
-      this.animeLibrary = res.data;
+    this._apiService.getAnime(this.limit, this.offset).subscribe(res => {
+      this.animeLibrary = res.animeLibrary;
+    });
+  }
+
+  onCoverArtClick(id: number) {
+    this._apiService.getAnimeDetails(id).subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  onScroll() {
+    this._apiService.getAnime(this.limit, ++this.offset).subscribe(res => {
+      this.animeLibrary.push(...res.animeLibrary);
     });
   }
 
